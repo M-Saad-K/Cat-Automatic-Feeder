@@ -12,6 +12,6 @@ If a seagull is detected, the LED and buzzer on the feeding device will turn on 
 ## Systems Used
 - RPI Camera Detection - OpenCV Animal Detection Library
 - Phone Notification - Ntfy
-- GUI
-- Live Feed
-- Feeding Box
+- GUI - Raspcontroller
+- Live Feed - Raspcontroller
+- Feeding Box - Servo and GPIO pins
