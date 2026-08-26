@@ -46,3 +46,19 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
     return img,objectInfo
 
+
+if __name__ == "__main__":
+
+    picam2.start()
+
+    while True:
+        img = picam2.capture_array()
+        img = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
+        result, objectInfo = getObjects(img,0.45,0.2, objects=['cat', 'bird'])
+        #print(objectInfo)
+        cv2.imshow("Output",img)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    picam2.stop()
+    cv2.destroyAllWindows()
