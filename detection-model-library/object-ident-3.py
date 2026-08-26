@@ -1,28 +1,25 @@
 import cv2
-from picamera2.encoders import H264Encoder
-from picamera2 import Picamera2
-import time
 
-picam2 = Picamera2()
-video_config = picam2.create_video_configuration()
-picam2.configure(video_config)
-encoder = H264Encoder(bitrate=10000000)
+import time
+from gpiozero import AngularServo
+servo =AngularServo(18, initial_angle=0, min_pulse_width=0.0006, max_pulse_width=0.0023)
 
 #thres = 0.45 # Threshold to detect object
 
 classNames = []
-classFile = "detection-model-library/coco.names"
+classFile = "/home/pi/Desktop/Object_Detection_Files/coco.names"
 with open(classFile,"rt") as f:
     classNames = f.read().rstrip("\n").split("\n")
 
-configPath = "detection-model-library/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt"
-weightsPath = "detection-model-library/frozen_inference_graph.pb"
+configPath = "/home/pi/Desktop/Object_Detection_Files/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt"
+weightsPath = "/home/pi/Desktop/Object_Detection_Files/frozen_inference_graph.pb"
 
 net = cv2.dnn_DetectionModel(weightsPath,configPath)
 net.setInputSize(320,320)
 net.setInputScale(1.0/ 127.5)
 net.setInputMean((127.5, 127.5, 127.5))
 net.setInputSwapRB(True)
+
 
 def getObjects(img, thres, nms, draw=True, objects=[]):
     classIds, confs, bbox = net.detect(img,confThreshold=thres,nmsThreshold=nms)
@@ -32,7 +29,7 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
     if len(classIds) != 0:
         for classId, confidence,box in zip(classIds.flatten(),confs.flatten(),bbox):
             className = classNames[classId - 1]
-            if className in objects:
+            if className in objects: 
                 objectInfo.append([box,className])
                 if (draw):
                     cv2.rectangle(img,box,color=(0,255,0),thickness=2)
@@ -40,22 +37,29 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                     cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
                     cv2.putText(img,str(round(confidence*100,2)),(box[0]+200,box[1]+30),
                     cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
-
+                    
+                    servo.angle = -90
+                    time.sleep = 2
+                    servo.angle = 90
+    
     return img,objectInfo
 
 
 if __name__ == "__main__":
 
-    picam2.start()
-
+    cap = cv2.VideoCapture(0)
+    cap.set(3,640)
+    cap.set(4,480)
+    #cap.set(10,70)
+    
+    
     while True:
-        img = picam2.capture_array()
-        img = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
-        result, objectInfo = getObjects(img,0.45,0.2, objects=['cat', 'bird'])
+        success, img = cap.read()
+        result, objectInfo = getObjects(img,0.45,0.2, objects=['cup','horse'])
         #print(objectInfo)
+        
+        
+        
         cv2.imshow("Output",img)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    picam2.stop()
-    cv2.destroyAllWindows()
+        cv2.waitKey(1)
+    
