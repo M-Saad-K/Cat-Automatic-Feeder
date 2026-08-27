@@ -8,7 +8,7 @@ video_config = picam2.create_video_configuration()
 picam2.configure(video_config)
 encoder = H264Encoder(bitrate=10000000)
 
-#thres = 0.45 # Threshold to detect object
+thres = 0.50 # Threshold to detect object
 
 classNames = []
 classFile = "detection-model-library/coco.names"
