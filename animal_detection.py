@@ -56,7 +56,7 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
                     if className == "cat":
 
-                        capture_photo()
+                        image_filename = capture_photo(img)
                         send_ntfy_notification(cat, image_filename)
 
                         # Notification is sent, told that it will wait for period for another notification
@@ -66,7 +66,7 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
                     if className == "bird":
 
-                        capture_photo()
+                        capture_photo(img)
                         send_ntfy_notification(cat, image_filename)
 
                         # Notification is sent, told that will wiat for period for another notification
@@ -75,6 +75,9 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                             length = end - start
 
     return img,objectInfo
+
+def capture_photo() -> str:
+
 
 
 if __name__ == "__main__":
