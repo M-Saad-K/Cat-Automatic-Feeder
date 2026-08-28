@@ -42,25 +42,23 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                     cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
 
                     # Implement a timer
-
-                    import time
-
-
-length = 0
-start = time.time()
-
-
-while length != 60:
-    end = time.time()
-    length = end - start
-
-print("One minute has passed")
+                    length = 0
+                    start = time.time()
 
                     if className == "cat":
                         print("Cat Detected")
 
+                        # Notification is sent, told that it will wait for period for another notification
+                        while length != 60:
+                            end = time.time()   
+                            length = end - start
+
                     if className == "bird":
                         print("Bird Detected")
+                        # Notification is sent, told that will wiat for period for another notification
+                        while length != 60:
+                            end = time.time()   
+                            length = end - start
 
     return img,objectInfo
 
