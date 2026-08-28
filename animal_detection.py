@@ -4,6 +4,8 @@ from picamera2 import Picamera2
 import time
 import os
 from datetime import datetime
+import requests
+
 
 picam2 = Picamera2()
 video_config = picam2.create_video_configuration()
@@ -93,15 +95,15 @@ def send_ntfy_notification(object, image_filename):
     message = f"Motion detected. See attached photo"
     headers = {
         "Title" : title,
-        "Content-type" : application/octet-stream
+        "Content-type" : "application/octet-stream"
     }
 
     with open(f"image-save-folder/{image_filename}", "rb") as f:
-        requests.post{
+        requests.post(
             f"{NTFY_SERVER}/{NTFY_TOPIC_NAME}",
             data=f,
             headers=headers
-        }
+        )
 
 
 if __name__ == "__main__":
