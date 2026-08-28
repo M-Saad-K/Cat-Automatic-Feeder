@@ -56,7 +56,8 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
                     if className == "cat":
 
-                        send_ntfy_notification(cat, )
+                        capture_photo()
+                        send_ntfy_notification(cat, image_filename)
 
                         # Notification is sent, told that it will wait for period for another notification
                         while length != 60:
@@ -64,7 +65,10 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                             length = end - start
 
                     if className == "bird":
-                        print("Bird Detected")
+
+                        capture_photo()
+                        send_ntfy_notification(cat, image_filename)
+
                         # Notification is sent, told that will wiat for period for another notification
                         while length != 60:
                             end = time.time()   
