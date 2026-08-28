@@ -8,6 +8,13 @@ video_config = picam2.create_video_configuration()
 picam2.configure(video_config)
 encoder = H264Encoder(bitrate=10000000)
 
+# Ntfy_Server Info
+NTFY_SERVER = "https://ntfy.sh"
+NTFY_TOPIC_NAME = "Unique Topic Name Goes Here" # Put your topic there TODO: Remeber to add and remove this before git commits
+
+# Server directory
+
+
 thres = 0.50 # Threshold to detect object
 
 classNames = []
