@@ -56,26 +56,14 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                     # Implement a timer
                     length = 0
                     start = time.time()
+                   
+                    image_filename = capture_photo(img, save_directory)
+                    send_ntfy_notification(className, image_filename)
 
-                    if className == "cat":
-
-                        image_filename = capture_photo(img, save_directory)
-                        send_ntfy_notification("cat", image_filename)
-
-                        # Notification is sent, told that it will wait for period for another notification
-                        while length != 60:
-                            end = time.time()   
-                            length = end - start
-
-                    if className == "bird":
-
-                        image_filename = capture_photo(img, save_directory)
-                        send_ntfy_notification("bird", image_filename)
-
-                        # Notification is sent, told that will wiat for period for another notification
-                        while length != 60:
-                            end = time.time()   
-                            length = end - start
+                    # Notification is sent, told that will wiat for period for another notification
+                    while length != 60:
+                        end = time.time()   
+                        length = end - start
 
     return img,objectInfo
 
