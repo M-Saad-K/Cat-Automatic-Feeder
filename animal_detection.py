@@ -2,6 +2,7 @@ import cv2
 from picamera2.encoders import H264Encoder
 from picamera2 import Picamera2
 import time
+import os
 
 picam2 = Picamera2()
 video_config = picam2.create_video_configuration()
@@ -12,8 +13,9 @@ encoder = H264Encoder(bitrate=10000000)
 NTFY_SERVER = "https://ntfy.sh"
 NTFY_TOPIC_NAME = "Unique Topic Name Goes Here" # Put your topic there TODO: Remeber to add and remove this before git commits
 
-# Server directory
-
+# Save directory
+save_directory = "image-save-folder"#
+os.makedirs(save_directory, exist_ok = True)
 
 thres = 0.50 # Threshold to detect object
 
@@ -53,7 +55,8 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                     start = time.time()
 
                     if className == "cat":
-                        print("Cat Detected")
+
+                        send_ntfy_notification(cat, )
 
                         # Notification is sent, told that it will wait for period for another notification
                         while length != 60:
