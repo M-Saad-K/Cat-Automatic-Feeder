@@ -41,6 +41,8 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                     cv2.putText(img,str(round(confidence*100,2)),(box[0]+200,box[1]+30),
                     cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
 
+                    # Implement a timer
+
                     if className == "cat":
                         print("Cat Detected")
 
