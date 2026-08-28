@@ -14,13 +14,13 @@ encoder = H264Encoder(bitrate=10000000)
 
 # Ntfy_Server Info
 NTFY_SERVER = "https://ntfy.sh"
-NTFY_TOPIC_NAME = "Unique Topic Name Goes Here" # Put your topic there TODO: Remeber to add and remove this before git commits
+NTFY_TOPIC_NAME = "cat_M0nit0r1NG" # Put your topic there TODO: Remeber to add and remove this before git commits
 
 # Save directory
 save_directory = "image-save-folder"#
 os.makedirs(save_directory, exist_ok = True)
 
-thres = 0.50 # Threshold to detect object
+thres = 0.70 # Threshold to detect object
 
 classNames = []
 classFile = "detection-model-library/coco.names"
@@ -86,7 +86,9 @@ def send_ntfy_notification(object, image_filename):
         "Content-type" : "application/octet-stream"
     }
 
-    with open(f"image-save-folder/{image_filename}", "rb") as f:
+
+    with open(image_filename, "rb") as f:
+        print(f.tell())
         requests.post(
             f"{NTFY_SERVER}/{NTFY_TOPIC_NAME}",
             data=f,
