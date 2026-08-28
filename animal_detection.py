@@ -3,6 +3,7 @@ from picamera2.encoders import H264Encoder
 from picamera2 import Picamera2
 import time
 import os
+from datetime import datetime
 
 picam2 = Picamera2()
 video_config = picam2.create_video_configuration()
@@ -56,7 +57,7 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
                     if className == "cat":
 
-                        image_filename = capture_photo(img)
+                        image_filename = capture_photo(im, save_directory)
                         send_ntfy_notification(cat, image_filename)
 
                         # Notification is sent, told that it will wait for period for another notification
@@ -66,7 +67,7 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
                     if className == "bird":
 
-                        capture_photo(img)
+                        image_filename = capture_photo(img, save_directory)
                         send_ntfy_notification(cat, image_filename)
 
                         # Notification is sent, told that will wiat for period for another notification
@@ -76,9 +77,16 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
     return img,objectInfo
 
-def capture_photo() -> str:
+def capture_photo(img, save_directory) -> str:
 
+    global last_motion_time
+    time_stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    image_filename = f"{save_directory}/motion_image_{time_stamp}.jpg"
 
+    cv2.imwrite(image_filename, img)
+    last_motion_time = time.time()
+
+    return image_filename
 
 if __name__ == "__main__":
 
