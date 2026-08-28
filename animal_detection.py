@@ -43,6 +43,19 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
                     # Implement a timer
 
+                    import time
+
+
+length = 0
+start = time.time()
+
+
+while length != 60:
+    end = time.time()
+    length = end - start
+
+print("One minute has passed")
+
                     if className == "cat":
                         print("Cat Detected")
 
