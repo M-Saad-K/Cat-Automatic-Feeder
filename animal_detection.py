@@ -57,8 +57,8 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
 
                     if className == "cat":
 
-                        image_filename = capture_photo(im, save_directory)
-                        send_ntfy_notification(cat, image_filename)
+                        image_filename = capture_photo(img, save_directory)
+                        send_ntfy_notification("cat", image_filename)
 
                         # Notification is sent, told that it will wait for period for another notification
                         while length != 60:
@@ -68,7 +68,7 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                     if className == "bird":
 
                         image_filename = capture_photo(img, save_directory)
-                        send_ntfy_notification(cat, image_filename)
+                        send_ntfy_notification("bird", image_filename)
 
                         # Notification is sent, told that will wiat for period for another notification
                         while length != 60:
@@ -87,6 +87,22 @@ def capture_photo(img, save_directory) -> str:
     last_motion_time = time.time()
 
     return image_filename
+
+def send_ntfy_notification(object, image_filename):
+    title = f"Alert : {object} was detected"
+    message = f"Motion detected. See attached photo"
+    headers = {
+        "Title" : title,
+        "Content-type" : application/octet-stream
+    }
+
+    with open(f"image-save-folder/{image_filename}", "rb") as f:
+        requests.post{
+            f"{NTFY_SERVER}/{NTFY_TOPIC_NAME}",
+            data=f,
+            headers=headers
+        }
+
 
 if __name__ == "__main__":
 
