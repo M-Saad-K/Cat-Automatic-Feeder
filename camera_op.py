@@ -1,7 +1,6 @@
 import cv2
 from picamera2.encoders import H264Encoder
 from picamera2 import Picamera2
-import time
 import os
 from datetime import datetime
 import requests
@@ -52,19 +51,7 @@ def getObjects(img, thres, nms, draw=True, objects=[]):
                     cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
                     cv2.putText(img,str(round(confidence*100,2)),(box[0]+200,box[1]+30),
                     cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
-
-                    # Implement a timer
-                    length = 0
-                    start = time.time()
-                   
-                    image_filename = capture_photo(img, save_directory)
-                    send_ntfy_notification(className, image_filename)
-
-                    # Notification is sent, told that will wiat for period for another notification
-                    while length != 60:
-                        end = time.time()   
-                        length = end - start
-
+                    
     return img,objectInfo
 
 def capture_photo(img, save_directory) -> str:
